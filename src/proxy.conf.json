@@ -1,6 +1,6 @@
 {
-  "/api/*": {
-    "target": "https://samples.openweathermap.org",
+  "/api": {
+    "target": "https://samples.openweathermap.org/data/2.5/weather",
     "pathRewrite":{
       "^/api":""
     },

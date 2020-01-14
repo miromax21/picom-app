@@ -19,6 +19,24 @@ export class WeatherService {
 
 
   getCurrentWeather(loc: string) {
+    const headerOprions = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
+ 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': 'my-auth-token'
+      })
+    };
+     this.http.get<any>(environment.apiUrl, {
+      headers: httpOptions.headers,
+      params:{
+        q: loc,
+        appid: environment.appid
+      }
+    }).toPromise().then((e)=>{
+      console.log(e);
+    })
+
     var data = {
       location:"London",
       otherinfo:"",

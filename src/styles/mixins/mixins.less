@@ -1,0 +1,173 @@
+// Mixins
+// --------------------------------------------------
+@keyframes checkbox-ripple {
+    90% {
+        opacity: 0;
+        transform: scale(1.6);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+@keyframes blink {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1.6);
+    }
+}
+// Utilities
+@import "./vendor-prefixes.less";
+
+.center-block() {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+//background-colors.less
+// @import "background-colors.less";
+// Custom Mixins
+
+.center (@vpos: 0) {
+    position: absolute;
+
+    & when (@vpos = 0) {
+        top: 0;
+        bottom: 0;
+    }
+
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.text-overflow() {
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.box-shadow (@shadow: none) {
+    -webkit-box-shadow: @shadow;
+    -moz-box-shadow: @shadow;
+    box-shadow: @shadow;
+}
+
+.caret(@thickness, @display: inline-block) {
+    display: @display;
+    width: 0;
+    height: 0;
+    border: @thickness solid transparent;
+}
+.arrow(@bColor, @angle, @size: 5px, @thickness: 1px) {
+    content: '';
+    border-width: @size;
+    border-style: solid;
+    border-color: transparent transparent @bColor transparent;
+    .rotate(@angle);
+}
+
+// .caret {
+//     display: inline-block;
+//     width: 0;
+//     height: 0;
+//     margin-left: 2px;
+//     vertical-align: middle;
+//     border-top:   @caret-width-base dashed;
+//     border-right: @caret-width-base solid transparent;
+//     border-left:  @caret-width-base solid transparent;
+//   }
+
+// .arrow (@bColor, @angle, @size: 5px, @thickness: 1px) {
+//     content: '';
+//     display: block;
+//     position: absolute;
+//     width: @size;
+//     height: @size;
+//     border-left: @thickness solid @bColor;
+//     border-bottom: @thickness solid @bColor;
+//     .rotate(@angle);
+// }
+
+
+@width-name: el-width;
+.grig-generator(@grig-array,@iterator: 1) when (@iterator <= length(@grig-array)) {
+    @item: extract(@grig-array, @iterator); 
+    @numerator: extract(@item, 1);
+    @denominator: extract(@item, 2);
+    .@{width-name}-@{numerator}-@{denominator}{
+        width: 100% / extract(@item, 2) * extract(@item, 1);
+    }
+    .grig-generator(@grig-array,@iterator + 1);  
+}
+
+.indents-generator(@type,@indentsArray, @iterator: 1) when (@iterator <= length(@indentsArray)) {
+  @item: extract(@indentsArray, @iterator);
+  @category: extract(@item, 1);
+  @size: extract(@item, 2);
+  .@{type}-@{category}-left {
+    @{type}-left: @size !important;
+  }
+  .@{type}-@{category}-right {
+    @{type}-right: @size !important;
+  }
+  .@{type}-@{category}-top {
+    @{type}-top: @size !important;
+  }
+ .@{type}-@{category}-bottom {
+    @{type}-bottom: @size !important;
+  }
+
+  .@{type}-@{category}-vertical {
+    @{type}: @size 0 !important;
+  }
+  .@{type}-@{category}-horizontal {
+    @{type}: 0 @size !important;
+  }
+  .@{type}-@{category} {
+    @{type}: @size !important;
+  }
+  .indents-generator(@type,@indentsArray,(@iterator + 1));
+}
+.generate-styles(@type,@styles-array,@iterator: 1) when (@iterator <= length(@styles-array)) {
+    @item: extract(@styles-array, @iterator); 
+    @styleName: extract(@item, 1);
+    @value: extract(@item, 2);
+    .@{type}-@{styleName}{
+        @{type}: @value; 
+    }
+    .generate-styles(@type,@styles-array,(@iterator + 1));  
+}
+
+.placeholders(@rules) {
+
+    &::-webkit-input-placeholder {
+        @rules();
+    }
+    &:-moz-placeholder {
+        @rules();
+    }
+    &::-moz-placeholder {
+        @rules();
+    }
+    &:-ms-input-placeholder {
+        @rules();
+    }
+}
+
+.generateSimpleIcons(@list, @baseClass: icon, @i: 1) when (@i <= length(@list)) {
+    @item: extract(@list, @i);
+    @class: extract(@item, 1);
+    @content: extract(@item, 2);
+    .@{baseClass}.@{class}:before {
+        content: @content;
+    }
+    .generateSimpleIcons(@list,@baseClass, @i + 1);
+}

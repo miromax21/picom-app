@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -11,6 +10,12 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "baseUrl": "./src",
+    "paths": {
+      "@shared": [
+        "app/shared/"
+      ]
+    },
     "typeRoots": [
       "node_modules/@types"
     ],

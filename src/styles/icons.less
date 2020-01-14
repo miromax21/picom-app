@@ -1,0 +1,41 @@
+.icon{
+    &.cels{
+        &:after {
+            content: "℃";
+        }
+    }
+    &.atmosphere{
+        &:after {
+            content: "hPA";
+            padding-left: 5px;
+        }
+    }
+    &.sort{
+        position: relative;
+        height: 18px;
+        display: block;
+        &:after,&:before{
+            right: 0;
+            position: absolute;
+        }
+        &:after{
+            .arrow( @color-garay-4 , 180deg,  5px, 1px);
+            position: absolute;
+            top: 11px;
+        }
+        &:before{
+            .arrow(@color-garay-3, 0,  5px, 1px);
+            position: absolute;
+            bottom: 9px;
+        }
+
+        &.asc-sort{
+            &:after{
+                border-color: transparent transparent @color-garay-3  transparent; 
+            }
+            &:before{
+                border-color: transparent transparent  @color-garay-4 transparent; 
+            }
+        }
+    }
+}

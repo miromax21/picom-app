@@ -1,0 +1,34 @@
+@import '~styles/variables.less';
+@import '~styles/mixins/mixins.less';
+@import '~styles/tables.less';
+
+.custom-table{
+    width: 100%;
+    thead {
+        tr {
+            th{
+                cursor: pointer;
+            }
+            .sort{
+                width: 10px;
+                margin-left: 5px;
+                vertical-align: middle;
+                float: left;
+                cursor: pointer;
+            }
+            height: 40px;
+            background-color: @color-garay-2;
+            color: @color-garay-4;
+        }
+    }
+    tr {
+        border-bottom: 1px solid  @color-garay-2;
+    }
+    th,td{
+        height: 72px;
+        font-weight: normal;
+        vertical-align: middle;
+        text-align: left;
+        padding: 0 15px;
+    }
+}

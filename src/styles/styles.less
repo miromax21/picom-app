@@ -1,0 +1,90 @@
+@import '~styles/variables.less';
+@import '~styles/mixins/mixins.less';
+@import '~styles/tables.less';
+@import '~styles/icons.less';
+
+@font-face {
+    font-family: @font-roboto;
+    src: url('@{root-fonts-path}Roboto-Regular.eot');
+    src: url('@{root-fonts-path}Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+         url('@{root-fonts-path}Roboto-Regular.woff2') format('woff2'),
+         url('@{root-fonts-path}Roboto-Regular.woff') format('woff'),
+         url('@{root-fonts-path}Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body{
+    height: 100%;
+}
+
+body {
+    font-family: @font-roboto;
+    font-size: 14px;
+}
+a, input, textarea, button {
+    outline: none;
+    background: none;
+    -webkit-appearance: none;
+}
+app-root {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+/* let's clear some floats */
+.clearfix {
+    zoom: 1;
+    &:before, &:after {
+        content: "\0020";
+        display: block;
+        height: 0;
+        overflow: hidden;
+    }
+    &:after {
+        clear: both;
+    }
+}
+.container {
+    width:100%;
+    .center-block();
+    .clearfix;
+}
+.input-base{
+    padding: 15px 45px;
+    border:  1px solid @color-garay-2;
+    background-color: @color-white;
+    color: @color-ocher-2;
+    border-radius: 20px;
+    cursor:pointer;
+    &:hover{
+        background-color: @color-ocher-0 ;
+    }
+    &:active{
+        .box-shadow(inset  0px 19px 15px -25px fade(@color-black, 90%));
+    }
+}
+
+
+.center-block{
+    display: block;
+    margin: 0 auto;
+}
+  
+ @media screen and (min-width: 1170px) {
+    .container{
+        width: 1170px;
+    }
+}
+@media  screen and (max-width: 768px)  {
+    .container{
+        width: 768px;
+    }
+}

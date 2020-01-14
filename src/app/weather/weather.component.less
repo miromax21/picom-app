@@ -1,0 +1,48 @@
+@import '~styles/variables.less';
+@import '~styles/mixins/mixins.less';
+@import '~styles/tables.less';
+
+h1{
+    color :@color-ocher-2;
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold;
+    padding: 23px 0;
+}
+.weather-table{
+    th{
+        &:first-child{
+            min-width: 373px;
+        }
+    }
+}
+
+.add-city-form-container{
+    background:@color-ocher-1 ;
+    padding: 30px 0;
+    margin-bottom: 24px;
+    .addCityForm{
+        width: 690px;
+        .add-city-input{
+            padding: 23px 28px;
+            border-radius: 30px;
+            width: 515px;
+            display: inline-block;
+            background-color: @color-white;
+            
+        }
+        .add-city-button{
+            padding: 23px 43px;
+            border-radius: 30px;
+            background-color: @color-ocher-2;
+            color: @color-white;
+            margin-left: 15px;
+            &:hover{
+                background-color: @color-ocher-3 ;
+            }
+            &:active{
+                .box-shadow(inset 0px 17px 20px -25px fade(@color-black, 90%));
+            }
+        }
+    }
+}

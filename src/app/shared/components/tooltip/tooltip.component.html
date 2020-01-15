@@ -1,0 +1,15 @@
+<div class="tooltip-component-container alert {{tooltipType}} {{direction}}" [ngClass]="{'show':show}" >
+    <div class="hover-container" (click)="toogleTooltip()">
+        <ng-template [ngTemplateOutlet]="itemTemplate"></ng-template>
+    </div>
+    <div class="tooltip-wrapper {{direction}}" *ngIf="show" [ngClass]="{'block':!onlyHover}" >
+        <span class="tooltip">
+            <div class="content">
+                <ng-content></ng-content>
+            </div>
+        </span>
+    </div>
+</div>
+<ng-template #defaultItemTemplate>
+    <span class="icon alert" [ngClass]="tooltipType"></span>
+</ng-template>

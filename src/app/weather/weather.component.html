@@ -1,32 +1,38 @@
 <div class="container weather">
-    <h1>Wheather map</h1>
+    <h1>WeatherMap</h1>
     <div class="add-city-form-container">
-        <form [formGroup]="cityForm" class="addCityForm center-block">
-            <input type="text"  name="city" placeholder="введите название города" i18n-placeholder  formControlName="city" class="add-city-input" #city/>
-            <button class="add-city-button" (click)="getWeatherData('sds')" i18n>Добавить</button>
+        <form [formGroup]="model.cityForm" class="addCityForm center-block" (ngSubmit)="onSubmit()">
+            <input type="text" name="city" placeholder="Введите название города" i18n-placeholder  formControlName="city" class="add-city-input" #city/>
+            <tooltip class="add-city-tooltip warning inline-block" direction="top" [show]="model.cityForm.controls.city.invalid" onlyOnHover>
+                <ng-template #itemTemplate>
+                    <button class="add-city-button" [ngClass] ="{'unselectable un-clicked': model.cityForm.controls.city.invalid}" i18n>Добавить</button> 
+                </ng-template>  
+                <span *ngIf="model.cityForm.controls.city.invalid">
+                    <span i18n>введите корректное значение</span>
+                </span>
+            </tooltip> 
         </form>
     </div>
     <div class="fixed-table-container">
         <table class="custom-table weather-table">
             <thead>
                 <tr>
- 
-                    <th (click)="sort(sortFields.Name)">
+                    <th (click)="sortCityList(sortFields.Name)">
                         <span class="pull-left" i18n>Город</span> 
-                        <span *ngIf="filters.sortField == sortFields.Name" class="icon sort" [ngClass]="{'asc-sort' : !filters.sortDesc}"></span> </th >
-                    <th (click)="sort(sortFields.Tempereture)">
+                        <span *ngIf="model.filters.sortField == sortFields.Name" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span> </th >
+                    <th (click)="sortCityList(sortFields.Tempereture)">
                         <span class="pull-left"  i18n>Температура</span>  
-                        <span *ngIf="filters.sortField == sortFields.Tempereture" class="icon sort" [ngClass]="{'asc-sort' : !filters.sortDesc}"></span></th>
-                    <th (click)="sort(sortFields.Atmosphere)">
+                        <span *ngIf="model.filters.sortField == sortFields.Tempereture" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span></th>
+                    <th (click)="sortCityList(sortFields.Atmosphere)">
                         <span class="pull-left"  i18n>Атмосферное давление</span>
-                        <span *ngIf="filters.sortField == sortFields.Atmosphere" class="icon sort" [ngClass]="{'asc-sort' : !filters.sortDesc}"></span></th>
+                        <span *ngIf="model.filters.sortField == sortFields.Atmosphere" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let city of cityList"> 
-                    <td>{{city.name}}</td>
-                    <td><span class="icon cels">{{city.tempereture}}</span></td>
+                <tr *ngFor="let city of model.cityList"> 
+                    <td>{{city.location}}</td>
+                    <td><span class="icon cels">{{city.temperature}}</span></td>
                     <td><span class="icon atmosphere">{{city.atmosphere}}</span></td>
                     <td><span class="input-base  pull-right" (click)="removeCity(city.name)" i18n>удалить</span></td>
                 </tr>

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { of } from 'rxjs';
-
+import { map ,tap, retry} from 'rxjs/operators';
+import { Utils } from '@shared';
+import { ICityListItem } from './weather.Interface';
+import { error } from 'util';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/xml',
@@ -19,30 +21,24 @@ export class WeatherService {
 
 
   getCurrentWeather(loc: string) {
-    const headerOprions = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
- 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': 'my-auth-token'
-      })
-    };
-     this.http.get<any>(environment.apiUrl, {
+    return  this.http.get<any>(environment.apiUrl, {
       headers: httpOptions.headers,
       params:{
         q: loc,
         appid: environment.appid
       }
-    }).toPromise().then((e)=>{
-      console.log(e);
-    })
-
-    var data = {
-      location:"London",
-      otherinfo:"",
-      weather: 
-        { tempereture :"20", atmosphere : "323" }
-    }
-    return of(data);
+    }).pipe(
+      // tap({
+      //   error: error => {
+      //     console.log('on error', error.message);
+      //   }
+      // }),
+     // retry(2),
+      map(data => this.getMockData())
+    )
+  }
+  private getMockData(): ICityListItem {
+    let serverData = { location:"London",  otherinfo:{dome_data: ""},  weather: { tempereture :"20", atmosphere : "323" }};
+    return Utils.Object.Extend({},<ICityListItem>{ location: serverData.location, temperature: Number(serverData.weather.tempereture),  atmosphere:  Number(serverData.weather.atmosphere)});
   }
 }

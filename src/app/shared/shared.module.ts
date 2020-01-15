@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { TooltipComponent } from './components/tooltip/tooltip.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -11,8 +12,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
         RouterModule,
         FormsModule
     ],
-    declarations: [],
-    exports: []
+    declarations: [
+        TooltipComponent
+    ],
+    exports: [
+        TooltipComponent
+    ]
 })
 export class SharedModule {
     static forRoot(): ModuleWithProviders {

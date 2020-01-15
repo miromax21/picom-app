@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { tap, map } from 'rxjs/operators';
 import { WeatherListFieldEnum } from 'app/shared/enums/weather-listfields-enum';
-import { CityListItem } from 'app/shared/interfaces/city-list-item.Interface';
+import { ICityListItem } from './weather.Interface';
 import {
     WeatherService,
     Utils
@@ -16,58 +15,83 @@ import {
 
 export class WeatherComponent implements OnInit  {
     private _subscription: Subscription;
+
+    public model: IWeatherModel;
     public sortFields: any = WeatherListFieldEnum;
-    public publishersFilterAutocomplete: any;
-    public filters={
-        sortField: WeatherListFieldEnum.Name,
-        sortDesc: true
-    }
-    public cityForm: FormGroup;
-    public cityList: CityListItem[] = [];
 
     constructor(
         private fb: FormBuilder,
         private _weatherService: WeatherService) { }
           
     ngOnInit(): void {
-        this.createForm();
+
+        this.model = {
+            requestInProcess : false,
+            filters : {
+                sortField: WeatherListFieldEnum.Name,
+                sortDesc: true
+            },
+            cityList: [],
+            cityForm : this.createForm()
+        }
         this._weatherService.getCurrentWeather('moscow');
     }
-
-    getWeatherData(input: string){
-        this._subscription = this._weatherService.getCurrentWeather('moscow').pipe(
-             tap(ev => console.log(ev)),
-             map(data => Utils.Object.Extend({}, {'name': data.location}, data.weather))
-        ).subscribe(res=> {
-            if (Utils.IsObject(res))
-                this.cityList.push(res as CityListItem)  
-        })
+    onSubmit(): void {
+        this.getWeatherData(this.model.cityForm.controls.city.value);
     }
 
-    createForm() {
-        this.cityForm = this.fb.group({
-            city: new FormControl()
+    getWeatherData(input: string):void{
+        this.startRequest()
+        this._subscription = this._weatherService.getCurrentWeather('moscow').subscribe(res=> {
+            if (Utils.IsObject(res))
+                this.model.cityList.push(res as any)  
+            this.completeRequest();    
+        })
+    }
+         
+    createForm() : FormGroup {
+        return this.fb.group({
+            city: new FormControl('',
+                [Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(30)]
+            )
         });
     }
 
-    removeCity(name:string){
-        this.cityList = this.cityList.filter(city => city.name != name)
+    removeCity(location:string){
+        this.model.cityList = this.model.cityList.filter(city => city.location != location)
     }  
 
-    sort(field: WeatherListFieldEnum){
-        if(field == this.filters.sortField) 
-            this.filters.sortDesc = !this.filters.sortDesc
+    sortCityList(field: WeatherListFieldEnum){
+        if(field == this.model.filters.sortField) 
+            this.model.filters.sortDesc = !this.model.filters.sortDesc
         else  
-            this.filters.sortField = field;
+            this.model.filters.sortField = field;
 
-        this.cityList = this.filters.sortDesc 
-            ? Utils.Array.OrderByDescending(this.cityList, d => d[this.filters.sortField]) 
-            : Utils.Array.OrderBy(this.cityList, d => d[this.filters.sortField]);  
+        this.model.cityList = this.model.filters.sortDesc 
+            ? Utils.Array.OrderByDescending(this.model.cityList, d => d[this.model.filters.sortField]) 
+            : Utils.Array.OrderBy(this.model.cityList, d => d[this.model.filters.sortField]);  
     }
 
+    private startRequest(): void {
+        this.model.requestInProcess = true;
+    }
+    private completeRequest(): void {
+        this.model.requestInProcess = false;
+    }
     ngOnDestroy() {
         this._subscription && this._subscription.unsubscribe();
     }
 }
 
+export interface IWeatherModel{
+    requestInProcess: boolean,
+    filters:  {
+        sortField: WeatherListFieldEnum,
+        sortDesc: boolean
+    }
+    cityForm: FormGroup,
+    cityList: ICityListItem[];
+}
 

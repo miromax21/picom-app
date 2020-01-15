@@ -1,0 +1,80 @@
+﻿@import '~styles/variables.less';
+@import '~styles/mixins/mixins.less';
+
+.hover-container{
+    &:hover{
+        &+.tooltip-wrapper{
+            display: block;
+        }
+    }
+}
+
+.tooltip-component-container{
+    &.show:hover{
+        &.top-left{
+            .tooltip:after{
+                display: none;
+            }
+            .tooltip-wrapper{
+                display: block;
+                min-height: 34px;
+                bottom: 100%;
+                margin: 0 auto 7px;
+                text-align: center;
+                right: 0;
+            }
+            .arrow:after{
+                content: '';
+                position: absolute;
+                top: -18px;
+                left: 50%;
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                background: inherit;
+                z-index: -1;
+                .rotate(45deg);
+            }
+            &.error .arrow:after{
+                background-color:   @color-black;
+            }
+            &.warning .arrow:after{
+                background-color:  @color-black;
+            }
+        }
+    }
+    .tooltip-wrapper{
+        display: none;
+        height: initial;
+        margin: 0 auto !important;
+        width: 290px;
+        &.top,&.bottom{
+            .tooltip{
+                margin-bottom: 13px;
+            }
+        }
+        &.right,&.left{
+           bottom: inherit;
+           padding: 8px 10px;
+           .tooltip{
+             margin-bottom: 0;
+           }
+        }
+        .tooltip{
+            padding: 15px 15px;
+        }
+        .content{
+            line-height: 18px;
+            font-size: 16px;
+            text-align: left;
+        }       
+    }
+    .icon.alert:before{
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .alert.alwaysShow .tooltip-wrapper{
+        display: block !important;
+        z-index: 20;
+    }
+}

@@ -14,7 +14,8 @@ import { from } from 'rxjs';
         WheatherRoutingModule,
         SharedModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+    
     ],
     declarations: [WeatherComponent],
     providers: [WeatherService]

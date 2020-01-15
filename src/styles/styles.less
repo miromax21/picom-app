@@ -38,7 +38,9 @@ app-root {
 .pull-right {
     float: right;
 }
-
+.inline-block{
+    display: inline-block !important;
+}
 /* let's clear some floats */
 .clearfix {
     zoom: 1;
@@ -58,7 +60,7 @@ app-root {
     .clearfix;
 }
 .input-base{
-    padding: 15px 45px;
+    padding: 9px 45px;
     border:  1px solid @color-garay-2;
     background-color: @color-white;
     color: @color-ocher-2;
@@ -76,6 +78,92 @@ app-root {
 .center-block{
     display: block;
     margin: 0 auto;
+}
+
+.tooltip-container{
+    position: absolute;
+    min-width: 100%;
+    top: 50%;
+}
+
+.buttons {
+    margin-left: 15px;
+}
+.tooltip-component-container{
+    position: relative;
+    &.top{
+        .tooltip-wrapper{
+            .translate(-50%, 0%);
+            min-height: 34px;
+            bottom: 100%;
+            text-align: center;
+            left: 50%;
+        }
+
+        .tooltip:after{
+            left: 50%;
+            margin-left: -6px;
+            bottom: -6px;
+        }
+    }
+}
+
+.tooltip {
+    height: inherit;
+    position: relative;
+    z-index: 20;
+    font-size: 12px;
+    line-height: 1.2;
+    color: @color-garay-3;
+    border-radius: 4px;
+    padding: 10px 17px;
+    background: @color-white;
+    display: block;
+    margin: 0 auto;
+
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: inherit;
+        z-index: -1;
+        .rotate(45deg);
+    }
+
+
+    &.only-message{
+        &:after, &:before{
+            display: none;
+        }
+    }
+}
+
+.tooltip-wrapper {
+    position: absolute;
+    width: 400px;
+    height: inherit;
+    margin: 0 -193px;
+    text-align: center;
+    bottom: 0;
+    z-index: 10;
+}
+
+.tooltip-contain {
+    position: relative;
+}
+.unselectable{
+    &::selection {
+        background: transparent;
+     }
+    &::-moz-selection {
+        background: transparent;
+     }
+}
+.un-clicked{
+    pointer-events: none;
 }
   
  @media screen and (min-width: 1170px) {

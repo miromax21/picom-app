@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { WeatherListFieldEnum } from 'app/shared/enums/weather-listfields-enum';
-import { ICityListItem } from './weather.Interface';
+import { ICityListItem,IWeatherData, IMain } from './weather.Interface';
+import { map ,tap, retry} from 'rxjs/operators';
 import {
     WeatherService,
     Utils
@@ -34,19 +35,26 @@ export class WeatherComponent implements OnInit  {
             cityList: [],
             cityForm : this.createForm()
         }
-        this._weatherService.getCurrentWeather('moscow');
     }
     onSubmit(): void {
+        debugger
         this.getWeatherData(this.model.cityForm.controls.city.value);
     }
 
-    getWeatherData(input: string):void{
+    getWeatherData(city: string):void{
         this.startRequest()
-        this._subscription = this._weatherService.getCurrentWeather('moscow').subscribe(res=> {
-            if (Utils.IsObject(res))
-                this.model.cityList.push(res as any)  
-            this.completeRequest();    
-        })
+        this._subscription = this._weatherService.getCurrentWeather(city)
+            .pipe( 
+                tap(el => console.log("Process "+ el),
+                    err => {
+                        this.completeRequest();  
+                    }
+                ),
+                map(data => Utils.IsObject(data) && Utils.Object.Extend({},{id :  data.id, location : data.name,temperature : data.main.temp, atmosphere: data.main.pressure }))
+            ).subscribe((res :ICityListItem) => {     
+                this.model.cityList.push(res)  
+                this.completeRequest();    
+            })
     }
          
     createForm() : FormGroup {

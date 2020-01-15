@@ -19,7 +19,6 @@ const httpOptions = {
 export class WeatherService {
   constructor(private http: HttpClient) { }
 
-
   getCurrentWeather(loc: string) {
     return  this.http.get<any>(environment.apiUrl, {
       headers: httpOptions.headers,
@@ -28,17 +27,12 @@ export class WeatherService {
         appid: environment.appid
       }
     }).pipe(
-      // tap({
-      //   error: error => {
-      //     console.log('on error', error.message);
-      //   }
-      // }),
-     // retry(2),
-      map(data => this.getMockData())
+       tap({
+         error: error => {
+           console.log('on error', error.message);
+         }
+       }),
+      retry(2)
     )
-  }
-  private getMockData(): ICityListItem {
-    let serverData = { location:"London", id: Math.floor(Math.random() * 10) + 1,  otherinfo:{dome_data: ""},  weather: { tempereture :"20", atmosphere : "323" }};
-    return Utils.Object.Extend({},<ICityListItem>{ location: serverData.location, id: serverData.id, temperature: Number(serverData.weather.tempereture),  atmosphere:  Number(serverData.weather.atmosphere)});
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 @Component({
   template: `
-    <div class="error-page page-not-found">
+    <div class="container error-page page-not-found">
       <div class="message-container">
       <span class="error-img"></span> 
       <p class="message-text">

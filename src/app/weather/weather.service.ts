@@ -38,7 +38,7 @@ export class WeatherService {
     )
   }
   private getMockData(): ICityListItem {
-    let serverData = { location:"London",  otherinfo:{dome_data: ""},  weather: { tempereture :"20", atmosphere : "323" }};
-    return Utils.Object.Extend({},<ICityListItem>{ location: serverData.location, temperature: Number(serverData.weather.tempereture),  atmosphere:  Number(serverData.weather.atmosphere)});
+    let serverData = { location:"London", id: Math.floor(Math.random() * 10) + 1,  otherinfo:{dome_data: ""},  weather: { tempereture :"20", atmosphere : "323" }};
+    return Utils.Object.Extend({},<ICityListItem>{ location: serverData.location, id: serverData.id, temperature: Number(serverData.weather.tempereture),  atmosphere:  Number(serverData.weather.atmosphere)});
   }
 }

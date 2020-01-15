@@ -59,8 +59,8 @@ export class WeatherComponent implements OnInit  {
         });
     }
 
-    removeCity(location:string){
-        this.model.cityList = this.model.cityList.filter(city => city.location != location)
+    removeCity(location_id:number){
+        this.model.cityList = this.model.cityList.filter(city => city.id != location_id)
     }  
 
     sortCityList(field: WeatherListFieldEnum){

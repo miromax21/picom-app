@@ -34,12 +34,14 @@ app-root {
 .pull-left {
     float: left;
 }
-
 .pull-right {
     float: right;
 }
 .inline-block{
     display: inline-block !important;
+}
+.relative{
+    position: relative;
 }
 /* let's clear some floats */
 .clearfix {
@@ -60,11 +62,12 @@ app-root {
     .clearfix;
 }
 .input-base{
-    padding: 9px 45px;
+    padding: 10px 43px;
     border:  1px solid @color-garay-2;
     background-color: @color-white;
     color: @color-ocher-2;
     border-radius: 20px;
+    font-size: 14px;
     cursor:pointer;
     &:hover{
         background-color: @color-ocher-0 ;

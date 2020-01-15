@@ -18,14 +18,23 @@
             <thead>
                 <tr>
                     <th (click)="sortCityList(sortFields.Name)">
-                        <span class="pull-left" i18n>Город</span> 
-                        <span *ngIf="model.filters.sortField == sortFields.Name" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span> </th >
+                        <span class="pull-left relative" i18n>
+                            Город
+                            <span class="icon" [ngClass]="{'asc-sort' : !model.filters.sortDesc, 'sort': model.filters.sortField == sortFields.Name}"></span>
+                        </span> 
+                        </th >
                     <th (click)="sortCityList(sortFields.Tempereture)">
-                        <span class="pull-left"  i18n>Температура</span>  
-                        <span *ngIf="model.filters.sortField == sortFields.Tempereture" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span></th>
+                        <span class="pull-left relative"  i18n>
+                            Температура
+                            <span class="icon" [ngClass]="{'asc-sort' : !model.filters.sortDesc, 'sort': model.filters.sortField == sortFields.Tempereture}"></span>
+                        </span>  
+                       </th>
                     <th (click)="sortCityList(sortFields.Atmosphere)">
-                        <span class="pull-left"  i18n>Атмосферное давление</span>
-                        <span *ngIf="model.filters.sortField == sortFields.Atmosphere" class="icon sort" [ngClass]="{'asc-sort' : !model.filters.sortDesc}"></span></th>
+                        <span class="pull-left relative"  i18n>
+                            Атмосферное давление
+                            <span class="icon" [ngClass]="{'asc-sort sort' : !model.filters.sortDesc, 'sort': model.filters.sortField == sortFields.Atmosphere}"></span>
+                        </span>
+                        </th>
                     <th></th>
                 </tr>
             </thead>
@@ -34,7 +43,7 @@
                     <td>{{city.location}}</td>
                     <td><span class="icon cels">{{city.temperature}}</span></td>
                     <td><span class="icon atmosphere">{{city.atmosphere}}</span></td>
-                    <td><span class="input-base  pull-right" (click)="removeCity(city.name)" i18n>удалить</span></td>
+                    <td><span class="input-base  pull-right" (click)="removeCity(city.id)" i18n>удалить</span></td>
                 </tr>
             </tbody>
         </table>

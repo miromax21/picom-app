@@ -25,6 +25,10 @@ export class WeatherComponent implements OnInit  {
         private _weatherService: WeatherService) { }
           
     ngOnInit(): void {
+        this.initModel();
+    }
+
+    initModel():void{
 
         this.model = {
             requestInProcess : false,
@@ -33,45 +37,45 @@ export class WeatherComponent implements OnInit  {
                 sortDesc: true
             },
             cityList: [],
-            cityForm : this.createForm()
+            cityForm : this.fb.group({
+                city: new FormControl('',[
+                    Validators.required,
+                    Validators.minLength(2),
+                    Validators.maxLength(30),
+                    Validators.pattern("[A-zА-я]+$") ]
+                )
+            })
         }
-    }
+     }    
+
     onSubmit(): void {
-        debugger
         this.getWeatherData(this.model.cityForm.controls.city.value);
     }
 
     getWeatherData(city: string):void{
-        this.startRequest()
+
+        this.startRequest();
         this._subscription = this._weatherService.getCurrentWeather(city)
             .pipe( 
-                tap(el => console.log("Process "+ el),
+                tap(null,
                     err => {
-                        this.completeRequest();  
-                    }
+                        this.completeRequest();
+                        this.model.cityForm.controls['city'].setErrors({'incorrect': true});
+                    }                
                 ),
                 map(data => Utils.IsObject(data) && Utils.Object.Extend({},{id :  data.id, location : data.name,temperature : data.main.temp, atmosphere: data.main.pressure }))
             ).subscribe((res :ICityListItem) => {     
                 this.model.cityList.push(res)  
                 this.completeRequest();    
-            })
-    }
-         
-    createForm() : FormGroup {
-        return this.fb.group({
-            city: new FormControl('',
-                [Validators.required,
-                Validators.minLength(2),
-                Validators.maxLength(30)]
-            )
-        });
+            });
+
     }
 
-    removeCity(location_id:number){
-        this.model.cityList = this.model.cityList.filter(city => city.id != location_id)
+    removeCity(location_id:number):void{
+        this.model.cityList = this.model.cityList.filter(city => city.id != location_id);
     }  
 
-    sortCityList(field: WeatherListFieldEnum){
+    sortCityList(field: WeatherListFieldEnum):void{
         if(field == this.model.filters.sortField) 
             this.model.filters.sortDesc = !this.model.filters.sortDesc
         else  

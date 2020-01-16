@@ -1,16 +1,20 @@
 <div class="container weather">
     <h1>WeatherMap</h1>
     <div class="add-city-form-container">
-        <form [formGroup]="model.cityForm" class="addCityForm center-block" (ngSubmit)="onSubmit()">
+        <form [formGroup]="model.cityForm" class="addCityForm center-block" (ngSubmit)="onSubmit()" #formGroup>
             <input type="text" name="city" placeholder="Введите название города" i18n-placeholder  formControlName="city" class="add-city-input" #city/>
-            <tooltip class="add-city-tooltip warning inline-block" direction="top" [show]="model.cityForm.controls.city.invalid" onlyOnHover>
+            <tooltip class="add-city-tooltip warning inline-block" direction="top" propertyCalss="shadow" [show]="model.cityForm.controls.city.invalid" onlyOnHover>
                 <ng-template #itemTemplate>
                     <button class="add-city-button" [ngClass] ="{'unselectable un-clicked': model.cityForm.controls.city.invalid}" i18n>Добавить</button> 
                 </ng-template>  
-                <span *ngIf="model.cityForm.controls.city.invalid">
+                <ng-template [ngIf]="model.cityForm.controls.city.invalid && city.value.length < 2" [ngIfElse]="loggedOut">
+                    <span i18n>укажите параметры поиска</span>
+                  </ng-template>
+                <ng-template #loggedOut>
                     <span i18n>введите корректное значение</span>
-                </span>
+                  </ng-template>
             </tooltip> 
+         
         </form>
     </div>
     <div class="fixed-table-container">

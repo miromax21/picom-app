@@ -5,10 +5,16 @@
 :host ::ng-deep{ 
     .add-city-tooltip.warning{
         margin-left: 15px;
-        .tooltip-component-container{
+        .tooltip-component-container.top{
             width: 160px;
             .tooltip-wrapper{
                 width: 260px;
+                .content{
+                    text-align: center;
+                }
+            }
+            &.shadow .tooltip{
+                .box-shadow(0px 4px 16px fade(@color-ocher-2, 20%));
             }
         }
     }
@@ -18,45 +24,55 @@ h1{
     font-size: 22px;
     text-align: center;
     font-weight: bold;
-    padding: 20px 0;
-    letter-spacing: 1.2px;
+    padding: 19px 0;
+    letter-spacing: 1.3px;
 }
 .weather-table{
-    th{
+    table-layout: fixed;
+    th,td{
         &:first-child{
-            min-width: 373px;
+            width: 41%;
         }
     }
 }
 
 .add-city-form-container{
     background:@color-ocher-1 ;
-    padding: 30px 0;
+    padding: 31px 0;
     margin-bottom: 24px;
     .addCityForm{
         width: 690px;
         .add-city-input{
-            padding: 23px 28px;
-            border-radius: 30px;
-            width: 515px;
             display: inline-block;
+            width: 513px;
+            height: 64px;
+            padding: 0 23px;
+            border-radius: 30px;
             background-color: @color-white;
+            border:  1px solid @color-garay-2;
             font-size: 18px;
             .placeholder(){
                 opacity: 1;
                 font-size: 18px;
                 line-height: 20px;
+                letter-spacing: 0.15px;
             }
             .placeholders( .placeholder());
+            &.ng-touched.ng-dirty.ng-invalid{
+                border-color: @color-red ;
+            }
             
         }
         .add-city-button{
-            padding: 25px 0;
+            height: 65px;
+            padding: 0 23px;
             border-radius: 30px;
             background-color: @color-ocher-2;
+            border:  1px solid @color-ocher-3;
             color: @color-white;
             width: 160px;
             font-size: 16px;
+            letter-spacing: 0.15px;
             &:hover{
                 background-color: @color-ocher-3 ;
             }

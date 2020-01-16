@@ -1,4 +1,4 @@
-<div class="tooltip-component-container alert {{tooltipType}} {{direction}}" [ngClass]="{'show':show}" >
+<div class="tooltip-component-container alert {{propertyCalss}} {{direction}}" [ngClass]="{'show':show}" >
     <div class="hover-container" (click)="toogleTooltip()">
         <ng-template [ngTemplateOutlet]="itemTemplate"></ng-template>
     </div>
@@ -11,5 +11,5 @@
     </div>
 </div>
 <ng-template #defaultItemTemplate>
-    <span class="icon alert" [ngClass]="tooltipType"></span>
+    <span [ngClass]="tooltipType"></span>
 </ng-template>

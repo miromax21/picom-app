@@ -13,7 +13,7 @@ export class TooltipComponent implements OnInit {
     @ViewChild('defaultItemTemplate',{static:false}) defaultItemTemplate: TemplateRef<any>;
     
     onlyHover: boolean = false;
-    @Input() tooltipType: string = "info";
+    @Input() propertyCalss: string = "";
     @Input() show:boolean = false;
     @Input() direction: string ="top";
     private _unregister: Function;

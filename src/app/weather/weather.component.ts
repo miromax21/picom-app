@@ -65,8 +65,10 @@ export class WeatherComponent implements OnInit  {
                 ),
                 map(data => Utils.IsObject(data) && Utils.Object.Extend({},{id :  data.id, location : data.name,temperature : data.main.temp, atmosphere: data.main.pressure }))
             ).subscribe((res :ICityListItem) => {     
-                this.model.cityList.push(res)  
-                this.completeRequest();    
+                this.model.cityList.push(res);
+                this.completeRequest(); 
+                this.model.cityForm.reset();  
+                   
             });
 
     }
